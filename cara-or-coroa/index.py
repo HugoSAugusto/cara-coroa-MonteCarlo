@@ -1,19 +1,36 @@
 import random
+import matplotlib.pyplot as plt
 
 def jogar_cara_ou_coroa():
     return random.choice(["cara", "coroa"])
 
 def simulacao_monte_carlo():
-    for i in range(500):
-        caras = 0
-        coroas = 0
+    caras = []
+    coroas = []
+    
+    for i in range(500):  # 500 simulações
+        cara_count = 0
+        coroa_count = 0
         
-        for i in range(1000):
+        for i in range(1000):  # 1000 jogadas por simulação
             if jogar_cara_ou_coroa() == "cara":
-                caras += 1
+                cara_count += 1
             else:
-                coroas += 1
+                coroa_count += 1
         
-        print(f"Caras: {caras}, Coroas: {coroas}")
+        caras.append(cara_count)
+        coroas.append(coroa_count)
+    
+    return caras, coroas
 
-simulacao_monte_carlo()
+# Executar a simulação e armazenar resultados
+cara, coroa = simulacao_monte_carlo()
+
+# Criando o gráfico de barras
+plt.bar(["Caras", "Coroas"], [sum(cara) / len(cara), sum(coroa) / len(coroa)], color=['blue', 'green'])
+
+plt.xlabel("Resultado")
+plt.ylabel("Média de Ocorrências")
+plt.title("Média de Caras e Coroas por Simulação")
+
+plt.show()
